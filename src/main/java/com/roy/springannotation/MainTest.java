@@ -1,6 +1,7 @@
 package com.roy.springannotation;
 
 import com.roy.springannotation.bean.Person;
+import com.roy.springannotation.config.LifeCycleConfig;
 import com.roy.springannotation.config.MyConfig;
 import com.roy.springannotation.config.MyConfig2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.core.env.Environment;
 
 public class MainTest {
 
-    static ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig2.class);
+    static AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
 
     @Autowired
     Person person;
@@ -19,7 +20,33 @@ public class MainTest {
     public static void main(String[] args) {
 //        test1();
 //        test2();
-        test03();
+//        test03();
+//        testImport();
+        testLifeCycle();
+    }
+
+    public static void testLifeCycle(){
+//        print();
+
+        context.close();
+    }
+
+    public static void testImport(){
+        print();
+
+        Object colorFactoryBean = context.getBean("colorFactoryBean");
+        System.out.println(colorFactoryBean.getClass());
+
+        Object colorFactoryBean2 = context.getBean("&colorFactoryBean");
+        System.out.println(colorFactoryBean2.getClass());
+
+    }
+
+    private static void print(){
+        String[] names = context.getBeanDefinitionNames();
+        for (String name: names) {
+            System.out.println(name);
+        }
     }
 
     public static void test03(){
