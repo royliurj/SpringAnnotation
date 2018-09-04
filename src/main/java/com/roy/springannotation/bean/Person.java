@@ -1,5 +1,7 @@
 package com.roy.springannotation.bean;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Person {
 
     public Person() {
@@ -11,8 +13,27 @@ public class Person {
         this.age = age;
     }
 
+    /**
+     * 1，基本数值
+     * 2，SpEL #{}
+     * 3，${} 从配置文件（properties环境变量里的值）中获取值
+     */
+    @Value("张三")
     private String name;
+
+    @Value("#{100-50}")
     private Integer age;
+
+    @Value("${person.nickName}")
+    private String nickName;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getName() {
         return name;
@@ -35,6 +56,7 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", nickName='" + nickName + '\'' +
                 '}';
     }
 }
