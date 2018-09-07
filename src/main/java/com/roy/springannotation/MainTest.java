@@ -7,7 +7,10 @@ import com.roy.springannotation.bean.Color;
 import com.roy.springannotation.bean.Person;
 import com.roy.springannotation.config.*;
 import com.roy.springannotation.dao.BookDao;
+import com.roy.springannotation.ext.ExtConfig;
 import com.roy.springannotation.service.BookService;
+import com.roy.springannotation.tx.TxConfig;
+import com.roy.springannotation.tx.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -15,6 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 public class MainTest {
 
@@ -23,7 +27,7 @@ public class MainTest {
     @Autowired
     Person person;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 //        test1();
 //        test2();
 //        test03();
@@ -32,8 +36,31 @@ public class MainTest {
 //        testProperties();
 //        testAutowired();
 //        testProfile();
-        testAop();
+//        testAop();
+//        testTx();
+        testExt();
         context.close();
+    }
+
+    private static void testExt() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ExtConfig.class);
+
+
+
+    }
+
+    private static void testTx() throws SQLException {
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TxConfig.class);
+
+        UserService userService = context.getBean(UserService.class);
+        userService.insertUser();
+
+//        DataSource dataSource = (DataSource) context.getBean("dataSource");
+//
+//        System.out.println(dataSource.getClass());
+//        System.out.println(dataSource.getConnection());
+
     }
 
     private static void testAop(){
